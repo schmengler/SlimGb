@@ -1,0 +1,9 @@
+<div id="SlimGb_Entries">
+<?php foreach ($this->entries as $entry): ?>
+	<div class="SlimGb_Entry">
+		<div class="SlimGb_Entry_Author"><?php echo $entry->getAuthor(); ?></div>
+		<div class="SlimGb_Entry_Time"><?php echo $entry->getTime()->format($this->timeFormat->unfiltered()); ?></div>
+		<div class="SlimGb_Entry_Message"><?php echo $entry->getMessage(); ?></div>
+	</div>
+<?php endforeach;?>
+</div>

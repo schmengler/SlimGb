@@ -1,0 +1,42 @@
+form.cmxform fieldset { margin-bottom: 10px; } form.cmxform legend { padding: 0 2px; font-weight: bold; } form.cmxform label { display: inline-block; line-height: 1.8; vertical-align: top; } form.cmxform fieldset ol { margin: 0; padding: 0; } form.cmxform fieldset li { list-style: none; padding: 5px; margin: 0; } form.cmxform fieldset fieldset { border: none; margin: 3px 0 0; } form.cmxform fieldset fieldset legend { padding: 0 0 5px; font-weight: normal; } form.cmxform fieldset fieldset label { display: block; width: auto; } form.cmxform em { font-weight: bold; font-style: normal; color: #f00; } form.cmxform label { width: 120px; /* Width of labels */ } form.cmxform fieldset fieldset label { margin-left: 123px; /* Width plus 3 (html space) */ }
+form.cmxform input[type="text"] { width: 200px; }
+form.cmxform textarea { width: 99%; }
+
+* { font-family: sans-serif; font-size: 12px; }
+
+#SlimGb_Fieldset_Submit {
+	text-align: right;
+}
+#SlimGb_Form_AddEntry {
+	width: 600px;
+}
+#SlimGb_Message {
+	width: 578px;
+	text-align: center;
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #999999;
+	background-color: #F0F0FA;
+	font-weight: bold;
+}
+#SlimGb_Entries {
+	width: 600px;
+}
+.SlimGb_Entry {
+	background-color: #F0F0FA;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+.SlimGb_Entry_Author {
+	float: left;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+.SlimGb_Entry_Time {
+	float: right;
+}
+.SlimGb_Entry_Message {
+	clear: both;
+	background-color: #FFFFFF;
+	padding: 5px;
+}

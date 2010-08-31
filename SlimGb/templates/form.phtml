@@ -1,0 +1,32 @@
+<form class="cmxform" name="SlimGb_Form_Entry" id="SlimGb_Form_AddEntry" action="" method="post" accept-charset="utf-8">
+	<fieldset id="SlimGb_Fieldset_Author">
+		<legend>Enter your information:</legend>
+		<ol>
+<?php
+//TODO: PluginDOMBuilder Klasse, die Standard-Methoden anbietet wie:
+// + addFormField($fieldset, $name, $type)
+// + addFieldset($name)
+?>
+			<li class="<?php if (isset($this->validationErrors['author'])) :?>SlimGb_error<?php endif; ?>">
+				<label for="SlimGb_Input_Author">Your Name:</label>
+				<input type="text" name="SlimGb_author" id="SlimGb_Input_Author" value="<?php echo $this->entry->getAuthor(); ?>" maxlength="<?php echo $this->entryConfig['author_max_length']; ?>">
+<?php if (isset($this->validationErrors['author'])) : foreach ($this->validationErrors['author'] as $error): ?>
+				<em><?php echo $error; ?></em>
+<?php endforeach; endif; ?>
+			</li>
+		</ol>
+	</fieldset>
+	<fieldset id="SlimGb_Fieldset_Message" class="<?php if (isset($this->validationErrors['message'])) :?>SlimGb_error<?php endif; ?>">
+		<legend>Enter a guestbook message:</legend>
+		<textarea name="SlimGb_message" id="SlimGb_Input_Message"><?php echo $this->entry->getMessage(); ?></textarea>
+<?php if (isset($this->validationErrors['message'])) : foreach ($this->validationErrors['message'] as $error) :?>
+		<em><?php echo $error; ?></em>
+<?php endforeach; endif; ?>
+	</fieldset>
+	<fieldset id="SlimGb_Fieldset_Submit">
+		<button type="submit">Add Entry</button>
+		<input type="text" name="SlimGb_foo" value="" style="display: none">
+		<input type="hidden" name="SlimGb_csrfToken" value="<?php echo $this->csrfToken; ?>">
+		<input type="hidden" name="SlimGb_action" value="add">
+	</fieldset>
+</form>

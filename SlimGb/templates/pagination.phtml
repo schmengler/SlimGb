@@ -1,0 +1,24 @@
+<div class="SlimGb_Pagination">
+	<div class="SlimGb_Pagination_Info"><?php echo $this->pagination->getInfo(); ?></div>
+	<div class="SlimGb_Pagination_Links">
+<?php
+foreach ($this->pagination->getPages() as $page):
+	switch ($page->type):
+?>
+<?php case SlimGb_Page::LINK ?>
+		<span><a href="<?php echo $page->link; ?>">[<?php echo $page->from, ' - ', $page->to; ?>]</a> </span>
+<?php break; case SlimGb_Page::ACTIVE: ?>
+		<strong>[<?php echo $page->from, ' - ', $page->to; ?>] </strong>
+<?php break; case SlimGb_Page::DOTS: ?>
+		<span>[ . . . ] </span>
+<?php
+ 	endswitch;
+endforeach;
+?>
+	</div>
+	<div class="SlimGb_Pagination_Form">
+		<form method="get" action="">
+			Go to page <input type="text" name="SlimGb_page" size="3" maxlength="4">
+		</form>
+	</div>
+</div>

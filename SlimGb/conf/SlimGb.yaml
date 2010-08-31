@@ -1,0 +1,14 @@
+debug: true
+
+application:
+  link: http://localhost/SlimGb/example/include.php
+
+locale:
+  time_format: Y-m-d H:i
+
+entries:
+  per_page: 10
+  max_page_links: 15
+  max_length: 1000
+  author_max_length: 30
+  flood_control: 30 # seconds

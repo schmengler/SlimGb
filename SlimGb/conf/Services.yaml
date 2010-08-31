@@ -1,0 +1,51 @@
+# import datasource parameters
+imports:
+  - { resource: ../datasources/csv.yaml.php }
+#  - { resource: ../datasources/pdo.yaml.php }
+
+parameters:
+  config.source:                 '<?php echo SLIMGB_BASEPATH; ?>/conf/SlimGb.yaml';
+  config.plugin.source:          '' # to be set individually in each plugin
+  # change view parameters in plugin and inject new view into controller for other view classes (i.E. RSS)
+  # see also services[view.outputFilter.filter]
+  view.class:                    SlimGb_Service_ViewHtml
+ 
+services:
+  config.app:
+    class:     SlimGb_Service_ConfigYaml
+    arguments: [%config.source%]
+  config.plugin:
+    class:     SlimGb_Service_ConfigYaml
+    arguments: [%config.plugin.source%]
+    shared:    false
+  eventDispatcher:
+    class:     sfEventDispatcher
+  pluginManager:
+    class:     SlimGb_Service_PluginManagerImpl
+  entryFactory:
+    class:     SlimGb_Service_EntryFactoryImpl
+  entryValidator:
+    class:     SlimGb_Service_EntryValidatorImpl
+    arguments: [@eventDispatcher, @config.app]
+  dataProvider:
+    class:     SlimGb_Service_DataProviderImpl
+    arguments: [@dataSource, @entryFactory, @eventDispatcher]
+  view:
+    class:     %view.class%
+    arguments: [@eventDispatcher, @view.outputFilter.chain]
+  view.outputFilter.chain:
+    class:     OutputFilterWrapperChain
+    calls:
+      - [pushWrapper, [@view.outputFilter.wrapper]]
+  view.outputFilter.wrapper:
+    class:     OutputFilterWrapper
+    arguments: [@view.outputFilter.filter]
+  view.outputFilter.filter:
+    class:     FilterChain
+    calls:
+      - [pushFilter, [@view.outputFilter.filter1]]
+      - [pushFilter, [@view.outputFilter.filter2]]
+  view.outputFilter.filter1:
+    class:     HtmlEntitiesFilter
+  view.outputFilter.filter2:
+    class:     Nl2brFilter
