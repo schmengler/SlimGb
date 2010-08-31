@@ -38,7 +38,11 @@ class SlimGb_Service_ConfigYaml implements SlimGb_Service_Config
 	
 	private function saveCompiledFile()
 	{
-		file_put_contents($this->getCompiledFile(), '<?php return ' . var_export($this->configArray, true) . ';');
+		$filename = $this->getCompiledFile();
+		if(!is_dir(dirname($filename))) {
+			mkdir(dirname($filename), 0777, true);
+		}
+		file_put_contents($filename, '<?php return ' . var_export($this->configArray, true) . ';');
 	}
 	
 	private function readYamlFile()

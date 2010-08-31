@@ -31,7 +31,9 @@ class SlimGb_ServiceContainerFactory
 		  if (!$this->isDebug)
 		  {
 		    $dumper = new sfServiceContainerDumperPhp($sc);
-		 
+		    if (!is_dir(dirname($file))) {
+		      mkdir(dirname($file), 0777, true);
+		    }
 		    file_put_contents($file, $dumper->dump(array('class' => $name)));
 		  }
 		}
