@@ -151,6 +151,9 @@ class SlimGb_Service_ViewHtml implements SlimGb_Service_View
 		$modified = substr($modified, strpos($modified, self::$startTemplateToken) + strlen(self::$startTemplateToken));
 		$modified = substr($modified, 0, strpos($modified, self::$endTemplateToken));
 		$modified = self::decodePhp($modified);
+		if (!is_dir(dirname($file))) {
+			mkdir(dirname($file), 0777, true);
+		}
 		file_put_contents($file, $modified);
 	}
 	

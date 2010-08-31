@@ -89,4 +89,5 @@ class SlimGb_Service_ViewRss implements SlimGb_Service_View
         htmlentities('Einzigartige ID'));
     $itm->appendChild($dat);
 */
+	}
 }
