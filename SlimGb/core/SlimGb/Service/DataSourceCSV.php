@@ -8,6 +8,9 @@ class SlimGb_Service_DataSourceCSV implements SlimGb_Service_DataSource
 	private $columns = array();
 	private $counts = array();
 	
+	/**
+	 * @param SlimGb_Service_Config $config
+	 */
 	public function __construct(SlimGb_Service_Config $config)
 	{
 		//TODO: determine nessecary line length from plugins
@@ -17,14 +20,16 @@ class SlimGb_Service_DataSourceCSV implements SlimGb_Service_DataSource
 	}
 	
 	/**
+	 * @param string $resource
 	 * @param SlimGb_FieldDefinition[] $columns
 	 */
-	public function addColumns(array $columns) {
+	public function addColumns($resource, array $columns) {
 		//TODO: implement; nessecary for installing plugins
 	}
 
 	/**
 	 * @param string $resource
+	 * @return int
 	 */
 	public function count($resource) {
 		if(isset($this->count[$resource])) {
@@ -54,6 +59,7 @@ class SlimGb_Service_DataSourceCSV implements SlimGb_Service_DataSource
 	 * @param string $resource
 	 * @param int $offset
 	 * @param int $limit
+	 * @return array
 	 */
 	public function fetch($resource, $offset, $limit) {
 		$file = $this->open($resource, 'r');
@@ -77,6 +83,7 @@ class SlimGb_Service_DataSourceCSV implements SlimGb_Service_DataSource
 
 	/**
 	 * @param string $resource
+	 * @return array
 	 */
 	public function getColumns($resource) {
 		if(isset($this->columns[$resource])) {
@@ -124,6 +131,13 @@ class SlimGb_Service_DataSourceCSV implements SlimGb_Service_DataSource
 		return SLIMGB_BASEPATH . '/runtime/data/' . $resource . '.csv';
 	}
 
+	/**
+	 * Opens the file corresponding to $resource and returns the file resource from fopen()
+	 * 
+	 * @param string $resource
+	 * @param string $mode
+	 * @return resource
+	 */
 	private function open($resource, $mode)
 	{
 		$filename = $this->filename($resource);

@@ -44,15 +44,16 @@ class SlimGb_AntiCSRF {
 	private $error = 0;
 
 	/**
-	 * Starts the session if it isn't started yet.
-	 *
 	 * @param string $formId Unique identifier for form to be protected.
 	 * @param integer $timeout Token timeout period, in minutes. Default 15 minutes.
 	 */
 	public function __construct($formId, $timeout=15) {
 		$this->formId = $formId;
 		$this->timeout = $timeout;
-		if(!isset($_SESSION)) session_start();
+		if(!isset($_SESSION)) {
+			//may be too late here thus session_start() is called first in SlimGb.inc.php
+			session_start();
+		}
 	}
 
 	/**

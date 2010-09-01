@@ -43,6 +43,7 @@ class SlimGb_Service_ConfigYaml implements SlimGb_Service_Config
 			mkdir(dirname($filename), 0777, true);
 		}
 		file_put_contents($filename, '<?php return ' . var_export($this->configArray, true) . ';');
+		chmod($file, 0777);
 	}
 	
 	private function readYamlFile()

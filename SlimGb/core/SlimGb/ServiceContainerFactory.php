@@ -35,6 +35,7 @@ class SlimGb_ServiceContainerFactory
 		      mkdir(dirname($file), 0777, true);
 		    }
 		    file_put_contents($file, $dumper->dump(array('class' => $name)));
+		    chmod($file, 0777);
 		  }
 		}
 		return $sc;

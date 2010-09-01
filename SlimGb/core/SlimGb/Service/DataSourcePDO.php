@@ -3,15 +3,22 @@ class SlimGb_Service_DataSourcePDO implements SlimGb_Service_DataSource
 {
 	private $pdo;
 	
+	/**
+	 * @param string $dsn
+	 * @param string $user
+	 * @param string $password
+	 * @param array $options
+	 */
 	public function __construct($dsn, $user, $password, $options)
 	{
 		$this->pdo = new PDO($dsn, $user, $password, $options);
 		SlimGb_DateTime::$defaultFormat = 'Y-m-d H:i:s';
 	}
 	/**
+	 * @param string $resource
 	 * @param array $columns
 	 */
-	public function addColumns(array $columns) {
+	public function addColumns($resource, array $columns) {
 		//TODO: implement, needed by plugins
 	}
 
@@ -46,7 +53,8 @@ class SlimGb_Service_DataSourcePDO implements SlimGb_Service_DataSource
 		return $stmt->fetchColumn(0);
 	}
 	/**
-	 * 
+	 * @param string $resource
+	 * @return array
 	 */
 	public function getColumns($resource) {
 		$stmt = $this->pdo->query("SHOW COLUMNS FROM `$resource`");
@@ -86,11 +94,19 @@ class SlimGb_Service_DataSourcePDO implements SlimGb_Service_DataSource
 		$stmt->execute(array($id) + $data);
 	}
 	
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	private function columnsFromData($data)
 	{
 		return '`' . join('`,`', array_keys($data)) . '`';
 	}
 
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	private function valuesFromData($data)
 	{
 		return join(',', array_fill(1, count($data), '?'));

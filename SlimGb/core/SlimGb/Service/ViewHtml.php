@@ -74,7 +74,7 @@ class SlimGb_Service_ViewHtml implements SlimGb_Service_View
 	 */
 	public function render($page) {
 		/* Problem hier: $this->data vs. $data
-		 * Frage: ist ein zusätzliches Filter-Event nötig? Es gibt ja für die
+		 * Frage: ist ein zusï¿½tzliches Filter-Event nÃ¶tig? Es gibt ja fÃ¼r die
 		 * Attribute den Outputfilter
 		$event = new sfEvent($this, 'view.filter_before_render');
 		$this->eventDispatcher->filter($event, $this->data);
@@ -86,14 +86,14 @@ class SlimGb_Service_ViewHtml implements SlimGb_Service_View
 		$this->includePage($page);
 		
 		/*
-		 * Und hier: wozu in aller welt ein afterrender-event? änderungen am gesamtbild sollte
-		 * manipulatedom machen... andererseits würde ich mir vorbehalten, t,b. tidy hier einzuhängen
+		 * Und hier: wozu in aller welt ein afterrender-event? Ã„nderungen am gesamtbild sollte
+		 * manipulatedom machen... andererseits wÃ¼rde ich mir vorbehalten, t,b. tidy hier einzuhÃ¤ngen
 		$rendered = ob_get_clean();
 		$event = new sfEvent($this, 'view.filter_after_render');
 		$this->eventDispatcher->filter($event, $rendered);
 		return $event->getReturnValue();
 		// YAGNI?
-		// YAGNI! diese filter wären v.a. abhängig von der view-implementierung
+		// YAGNI! diese filter wÃ¤ren v.a. abhÃ¤ngig von der view-implementierung
 		 */
 		return ob_get_clean();
 	}
@@ -123,7 +123,7 @@ class SlimGb_Service_ViewHtml implements SlimGb_Service_View
 	 */
 	private static function loadTemplate($file)
 	{
-		$html = '<div>' . self::$startTemplateToken; // <div> notwendig, da der Kommentar (startTemplateToken) sonst vor hinzugefügtem <html> Tag erscheint
+		$html = '<div>' . self::$startTemplateToken; // <div> notwendig, da der Kommentar (startTemplateToken) sonst vor hinzugefï¿½gtem <html> Tag erscheint
 		$html .= self::encodePhp(strtr(file_get_contents($file), array(
 			self::$startTemplateToken => '',
 			self::$endTemplateToken   => '',
@@ -155,6 +155,7 @@ class SlimGb_Service_ViewHtml implements SlimGb_Service_View
 			mkdir(dirname($file), 0777, true);
 		}
 		file_put_contents($file, $modified);
+		chmod($file, 0777);
 	}
 	
 	private static function encodePhp($string)
