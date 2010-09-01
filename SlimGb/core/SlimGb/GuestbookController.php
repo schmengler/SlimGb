@@ -175,7 +175,7 @@ class SlimGb_GuestbookController extends SlimGb_Controller
 				$this->view->message = 'Invalid Request. Please submit again.';
 				break;
 			case SlimGb_AntiCSRF::ERROR_TOKEN_NOT_FOUND:
-				$this->view->message = 'Invalid Session. Please submit again.';
+				$this->view->message = 'Invalid Session. Please submit again and make sure that Cookies are allowed for this site.';
 				break;
 			case SlimGb_AntiCSRF::ERROR_TOKEN_TIMED_OUT:
 				$this->view->message = 'Session timed out. Please submit again.';

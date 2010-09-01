@@ -18,7 +18,7 @@
 	</fieldset>
 	<fieldset id="SlimGb_Fieldset_Message" class="<?php if (isset($this->validationErrors['message'])) :?>SlimGb_error<?php endif; ?>">
 		<legend>Enter a guestbook message:</legend>
-		<textarea name="SlimGb_message" id="SlimGb_Input_Message"><?php echo $this->entry->getMessage(); ?></textarea>
+		<textarea name="SlimGb_message" id="SlimGb_Input_Message"><?php echo htmlentities($this->entry->getMessage()->unfiltered()); ?></textarea>
 <?php if (isset($this->validationErrors['message'])) : foreach ($this->validationErrors['message'] as $error) :?>
 		<em><?php echo $error; ?></em>
 <?php endforeach; endif; ?>

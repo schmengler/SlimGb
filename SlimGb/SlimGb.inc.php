@@ -22,7 +22,7 @@ require_once 'sfEventDispatcher.php';
 require_once 'sfServiceContainerAutoloader.php';
 require_once 'OutputFilter/outputfilter.lib.php';
 require_once 'OutputFilter/Filters/HtmlEntitiesFilter.php';
-require_once 'OutputFilter/Filters/Nl2brFilter.php';
+require_once 'OutputFilter/Filters/Nl2BrFilter.php';
 require_once 'OutputFilter/Filters/FilterChain.php';
 
 sfServiceContainerAutoloader::register();
