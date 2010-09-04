@@ -22,4 +22,6 @@ interface SlimGb_Service_Config extends ArrayAccess
 	 * save changed configuration
 	 */
 	public function save();
+	
+	public function getSource();
 }

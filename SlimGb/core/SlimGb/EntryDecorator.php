@@ -4,6 +4,13 @@ abstract class SlimGb_EntryDecorator extends AbstractDecorator implements SlimGb
 	/**
 	 * 
 	 */
+	public function getId()
+	{
+		return parent::getId();
+	}
+	/**
+	 * 
+	 */
 	public function getAuthor() {
 		return parent::getAuthor();
 	}

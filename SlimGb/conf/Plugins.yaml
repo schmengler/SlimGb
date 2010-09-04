@@ -1,1 +1,7 @@
 # list of active plugins
+active_plugins: []
+#  - foo
+
+plugin_configuration:
+  foo:
+    key: value

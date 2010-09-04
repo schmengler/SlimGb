@@ -28,6 +28,8 @@ class SlimGb_Service_ViewHtml implements SlimGb_Service_View
 	{
 		$this->eventDispatcher = $ed;
 		$this->outputFilterWrapperChain = $fw;
+		$event = new sfEvent($this, 'view.instantiate');
+		$this->eventDispatcher->notify($event);
 	}
 	
 	/**

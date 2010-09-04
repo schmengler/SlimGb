@@ -33,39 +33,53 @@ final class SlimGb
 		$this->isAdmin = $isAdmin;
 		$this->isDebug = $isDebug;
 		
-		// Service Container
-		$scFactory = new SlimGb_ServiceContainerFactory(SLIMGB_BASEPATH . '/runtime', $this->isDebug);
-		$this->serviceContainer = $scFactory->makeServiceContainer(SLIMGB_BASEPATH . '/conf/Services.yaml');
-
-		// Services
-		$this->config = $this->serviceContainer->{'config.app'};
-		$this->isDebug = $this->isDebug || $this->config['debug'];
-
-		$this->eventDispatcher = $this->serviceContainer->eventDispatcher;
-		$this->pluginManager = $this->serviceContainer->pluginManager;
-		
-		// Plugins
-		//TODO: Plugins laden
-		//$this->pluginManager->load();
-
+		try {
+			// Service Container
+			$scFactory = new SlimGb_ServiceContainerFactory(SLIMGB_BASEPATH . '/runtime', $this->isDebug);
+			$this->serviceContainer = $scFactory->makeServiceContainer(SLIMGB_BASEPATH . '/conf/Services.yaml');
+	
+			// Services
+			$this->config = $this->serviceContainer->{'config.app'};
+			$this->isDebug = $this->isDebug || $this->config['debug'];
+	
+			$this->eventDispatcher = $this->serviceContainer->eventDispatcher;
+			$this->pluginManager = $this->serviceContainer->pluginManager;
+			$this->pluginManager->setServiceContainer($this->serviceContainer);
+			$this->pluginManager->loadPlugins();
+			
+		} catch (SlimGb_Exception $e) {
+			$this->handleException($e, __METHOD__);
+		}
 	}
 	
 	public function initGuestbook()
 	{
-		$this->controller = new SlimGb_GuestbookController($this->serviceContainer);
-		$this->handlePost();
+		try {
+			$this->controller = new SlimGb_GuestbookController($this->serviceContainer);
+			$this->handlePost();
+		} catch (SlimGb_Exception $e) {
+			$this->handleException($e, __METHOD__);
+		}
 	}
 	
 	public function initAdmin()
 	{
-		$this->controller = new SlimGb_AdminController($this->serviceContainer);
-		$this->handlePost();
+		try {
+			$this->controller = new SlimGb_AdminController($this->serviceContainer);
+			$this->handlePost();
+		} catch (SlimGb_Exception $e) {
+			$this->handleException($e, __METHOD__);
+		}
 	}
 	
-	public function iniInstall()
+	public function initInstall()
 	{
-		$this->controller = new SlimGb_InstallController($this->serviceContainer);
-		$this->handlePost();
+		try {
+			$this->controller = new SlimGb_InstallController($this->serviceContainer);
+			$this->handlePost();
+		} catch (SlimGb_Exception $e) {
+			$this->handleException($e, __METHOD__);
+		}
 	}
 	
 	private function handlePost()
@@ -80,6 +94,16 @@ final class SlimGb
 		$this->controller->callPostActions();
 		$this->postHandled = true;
 	}
+	
+	private function handleException(SlimGb_Exception $e, $method)
+	{
+		if ($this->isDebug) {
+			echo '<b>SlimGb_Exception</b> in <b>' . $e->getFile() . '</b> Line <b>' . $e->getLine() . '</b> with message: ' . $e->getMessage();
+			echo '<b>Stack Trace</b><br><pre>' . $e->getTraceAsString() . '</pre>';
+		} else {
+			echo '<b>Warning:</b> Error in SlimGb::' . $method;
+		}
+	}
 
 	/**
 	 * Shortcut methods may be registered by Plugins and Controllers via the
@@ -91,14 +115,21 @@ final class SlimGb
 	 */
 	public function __call($method, $arguments)
 	{
-		list($prefix, $method) = explode('_', $method, 2);
-		$event = new sfEvent($this, 'app.shortcut_method', array('prefix' => $prefix, 'method' => $method, 'arguments' => $arguments));
-		$this->eventDispatcher->notifyUntil($event);
-		if (!$event->isProcessed())
-		{
-			throw new BadMethodCallException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+		try {
+			if ($this->controller === null) {
+				throw new SlimGb_Exception('Controller not initialized. Make sure that initGuestbook(), initInstall() or initAdmin() is called before any other method.');
+			}
+			list($prefix, $method) = explode('_', $method, 2);
+			$event = new sfEvent($this, 'app.shortcut_method', array('prefix' => $prefix, 'method' => $method, 'arguments' => $arguments));
+			$this->eventDispatcher->notifyUntil($event);
+			if (!$event->isProcessed())
+			{
+				throw new BadMethodCallException(sprintf('Call to undefined method %s::%s.', get_class($this), $method));
+			}
+			return $event->getReturnValue();
+		} catch (SlimGb_Exception $e) {
+			$this->handleException($e, __METHOD__);
 		}
-		return $event->getReturnValue();
 	}
 	
 	public function registerShortcutMethod($prefix, $method)

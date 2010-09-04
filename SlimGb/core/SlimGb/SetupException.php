@@ -1,5 +1,11 @@
 <?php
-class SlimGb_SetupException extends Exception
+/**
+ * SetupException: incomplete or wrong installation
+ * 
+ * @author fs
+ *
+ */
+class SlimGb_SetupException extends SlimGb_Exception
 {
 	
 }

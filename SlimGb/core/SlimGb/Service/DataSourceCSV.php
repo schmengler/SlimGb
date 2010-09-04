@@ -20,6 +20,17 @@ class SlimGb_Service_DataSourceCSV implements SlimGb_Service_DataSource
 	}
 	
 	/**
+	 * Creates a new resource with the field definitions in $columns
+	 * 
+	 * @param string $name
+	 * @param SlimGb_FieldDefinition[] $columns
+	 */
+	public function createResource($name, array $columns)
+	{
+		//TODO: implement, nessecary for installation routine
+	}
+
+	/**
 	 * @param string $resource
 	 * @param SlimGb_FieldDefinition[] $columns
 	 */
@@ -52,7 +63,7 @@ class SlimGb_Service_DataSourceCSV implements SlimGb_Service_DataSource
 	 * @param scalar $id
 	 */
 	public function delete($resource, $id) {
-		//TODO: implement
+		//TODO: delete()
 	}
 
 	/**
@@ -120,7 +131,7 @@ class SlimGb_Service_DataSourceCSV implements SlimGb_Service_DataSource
 	 * @param array $data
 	 */
 	public function update($resource, $id, $data) {
-		//TODO: implement
+		//TODO: update()
 	}
 
 	/**

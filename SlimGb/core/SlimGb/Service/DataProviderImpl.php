@@ -1,7 +1,10 @@
 <?php
 class SlimGb_Service_DataProviderImpl implements SlimGb_Service_DataProvider
 {
-
+	/**
+	 * @var SlimGb_Service_Config application conf.
+	 */
+	private $config;
 	/**
 	 * @var SlimGb_Service_EntryFactory
 	 */
@@ -22,6 +25,22 @@ class SlimGb_Service_DataProviderImpl implements SlimGb_Service_DataProvider
 		$this->entryFactory = $entryFactory;
 		$this->dataSource = $dataSource;
 		$this->eventDispatcher = $eventDispatcher;
+	}
+	
+	public function createEntryResource()
+	{
+		$this->dataSource->createResource('SlimGb_entries', array(
+			new SlimGb_FieldDefinition('time', 'DateTime'),
+			new SlimGb_FieldDefinition('author', 'string', array('size' => $this->config['entries']['author_max_length'])),
+			new SlimGb_FieldDefinition('message', 'string', array('size' => $this->config['entries']['max_length']))
+		));
+	}
+	/**
+	 * @param SlimGb_FieldDefinition[] $definitions
+	 */
+	public function addColumnsToEntryResource(array $definitions)
+	{
+		//TODO: addColumnsToEntryResource(), needed by Plugin installation
 	}
 	/**
 	 * @param int $offset
@@ -62,5 +81,6 @@ class SlimGb_Service_DataProviderImpl implements SlimGb_Service_DataProvider
 	public function persistEntry(SlimGb_Entry $entry) {
 		$this->dataSource->insert('SlimGb_entries', $entry->getProperties());
 	}
+
 
 }

@@ -1,18 +1,30 @@
 <?php
 class SlimGb_Service_DataSourcePDO implements SlimGb_Service_DataSource
 {
+	/**
+	 * @var PDO
+	 */
 	private $pdo;
 	
-	/**
-	 * @param string $dsn
-	 * @param string $user
-	 * @param string $password
-	 * @param array $options
-	 */
-	public function __construct($dsn, $user, $password, $options)
+	public function __construct()
 	{
-		$this->pdo = new PDO($dsn, $user, $password, $options);
 		SlimGb_DateTime::$defaultFormat = 'Y-m-d H:i:s';
+	}
+
+	public function setPdo(PDO $pdo)
+	{
+		$this->pdo = $pdo;
+	}
+	
+	/**
+	 * Creates a new resource with the field definitions in $columns
+	 * 
+	 * @param string $name
+	 * @param SlimGb_FieldDefinition[] $columns
+	 */
+	public function createResource($name, array $columns)
+	{
+		//TODO: implement, nessecary for installation routine
 	}
 	/**
 	 * @param string $resource

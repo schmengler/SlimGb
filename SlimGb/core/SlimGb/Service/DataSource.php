@@ -2,6 +2,13 @@
 interface SlimGb_Service_DataSource
 {
 	/**
+	 * Creates a new resource with the field definitions in $columns
+	 * 
+	 * @param string $name
+	 * @param SlimGb_FieldDefinition[] $columns
+	 */
+	public function createResource($name, array $columns);
+	/**
 	 * @param string $resource i.E. a database table
 	 * @return string[] column names in $resource
 	 */
@@ -22,7 +29,7 @@ interface SlimGb_Service_DataSource
 	 * @param int $offset Offset
 	 * @param int $limit maximum number of datasets
 	 * @return array Array with unique entry IDs as keys and array represantation of datasets as values
-	 * @todo Diese Anforderung wird momentan gar nicht erfüllt (id als key), also aufgepasst bei implementierung von löschen und bearbeiten
+	 * @todo Diese Anforderung wird momentan gar nicht erfÃ¼llt (id als key), also aufgepasst bei implementierung von lï¿½schen und bearbeiten
 	 */
 	public function fetch($resource, $offset, $limit);
 	

@@ -1,4 +1,8 @@
 <?php
+if(!isset($_SESSION)) {
+	session_start();
+}
+
 /**
  * @var boolean grants access to source files
  */

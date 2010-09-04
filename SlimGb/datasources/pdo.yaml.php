@@ -14,4 +14,7 @@ parameters:
 services:
   dataSource:
     class:     %dataSource.class%
+    calls:
+      - [setPdo, @dataSource.pdo]
+  dataSource.pdo
     arguments: [ %dataSource.dsn%, %dataSource.user%, %dataSource.password%, [ 1002 : "SET NAMES 'UTF8'" ]

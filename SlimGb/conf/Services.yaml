@@ -4,7 +4,8 @@ imports:
 #  - { resource: ../datasources/pdo.yaml.php }
 
 parameters:
-  config.source:                 '<?php echo SLIMGB_BASEPATH; ?>/conf/SlimGb.yaml';
+  config.app.source:             '<?php echo SLIMGB_BASEPATH; ?>/conf/SlimGb.yaml';
+  config.plugins.source:         '<?php echo SLIMGB_BASEPATH; ?>/conf/Plugins.yaml';
   config.plugin.source:          '' # to be set individually in each plugin
   # change view parameters in plugin and inject new view into controller for other view classes (i.E. RSS)
   # see also services[view.outputFilter.filter]
@@ -13,7 +14,10 @@ parameters:
 services:
   config.app:
     class:     SlimGb_Service_ConfigYaml
-    arguments: [%config.source%]
+    arguments: [%config.app.source%]
+  config.plugins:
+    class:     SlimGb_Service_ConfigYaml
+    arguments: [%config.plugins.source%]
   config.plugin:
     class:     SlimGb_Service_ConfigYaml
     arguments: [%config.plugin.source%]
@@ -22,8 +26,10 @@ services:
     class:     sfEventDispatcher
   pluginManager:
     class:     SlimGb_Service_PluginManagerImpl
+    arguments: [@config.plugins, @eventDispatcher]
   entryFactory:
     class:     SlimGb_Service_EntryFactoryImpl
+    arguments: [@eventDispatcher]
   entryValidator:
     class:     SlimGb_Service_EntryValidatorImpl
     arguments: [@eventDispatcher, @config.app]
